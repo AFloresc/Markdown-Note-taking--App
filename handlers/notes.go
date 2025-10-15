@@ -5,6 +5,8 @@ import (
 	"io"
 	"markdown-notes-app/services"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // SaveNote receive a Markdown, saves nota y returns ID
@@ -32,4 +34,21 @@ func ListNotes(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(notes)
+}
+
+// RenderNote conversion from Markdown to HTML and retrieves it
+func RenderNote(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+
+	note, err := services.GetNoteByID(id)
+	if err != nil {
+		http.Error(w, "Nota no encontrada", http.StatusNotFound)
+		return
+	}
+
+	html := services.RenderMarkdown(note.Content)
+
+	resp := map[string]string{"id": id, "html": html}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resp)
 }
