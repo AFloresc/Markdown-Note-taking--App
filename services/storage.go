@@ -2,9 +2,8 @@ package services
 
 import (
 	"errors"
+	"markdown-note-taking--app/models"
 	"sync"
-
-	"markdown-notes-app/models"
 
 	"github.com/google/uuid"
 )

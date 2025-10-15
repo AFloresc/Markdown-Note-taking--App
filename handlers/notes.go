@@ -3,7 +3,8 @@ package handlers
 import (
 	"encoding/json"
 	"io"
-	"markdown-notes-app/services"
+	"markdown-note-taking--app/services"
+
 	"net/http"
 
 	"github.com/gorilla/mux"
